@@ -15,7 +15,8 @@
     "react-icons": "^4.8.0",
     "react-router": "^6.9.0",
     "react-select": "^5.7.1",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "wavesurfer.js": "^6.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
