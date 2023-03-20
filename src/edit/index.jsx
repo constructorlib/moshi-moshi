@@ -1,6 +1,7 @@
+import { Page } from "./index.styled";
+
 const Edit = () => {
-    return <div>Edit</div>;
-  };
-  
-  export default Edit;
-  
+  return <Page>Edit</Page>;
+};
+
+export default Edit;

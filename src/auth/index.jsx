@@ -1,5 +1,5 @@
-const Record = () => {
-  return <div>Record</div>;
+const Auth = () => {
+  return <div>Auth</div>;
 };
 
-export default Record;
+export default Auth;
