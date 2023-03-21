@@ -1,7 +1,5 @@
-import { Page } from "./index.styled";
-
 const Calendar = () => {
-  return <Page>Calendar</Page>;
+  return <div>Record</div>;
 };
 
 export default Calendar;

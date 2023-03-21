@@ -1,13 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "paths": {
-      "auth": ["./src/auth/*"],
-      "calendar": ["./src/calendar/*"],
-      "edit": ["./src/edit/*"],
-      "record": ["./src/record/*"],
-      "styles": ["./src/styles/*"]
-    },
+
     "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
