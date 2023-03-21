@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { startRecording, saveRecording } from "handlers/recorderControl";
 
 const initialState = {
+  recordingHours: 0,
   recordingMinutes: 0,
   recordingSeconds: 0,
   initRecording: false,
@@ -14,14 +15,15 @@ export default function useRecorder() {
   const [recorderState, setRecorderState] = useState(initialState);
 
   useEffect(() => {
-    const MAX_RECORDER_TIME = 5;
+    const MAX_RECORDER_TIME = 2;
     let recordingInterval = null;
 
     if (recorderState.initRecording)
       recordingInterval = setInterval(() => {
         setRecorderState((prevState) => {
           if (
-            prevState.recordingMinutes === MAX_RECORDER_TIME &&
+            prevState.recordingHours === MAX_RECORDER_TIME &&
+            prevState.recordingMinutes === 0 &&
             prevState.recordingSeconds === 0
           ) {
             clearInterval(recordingInterval);
@@ -33,7 +35,13 @@ export default function useRecorder() {
               ...prevState,
               recordingSeconds: prevState.recordingSeconds + 1,
             };
-
+          if (prevState.recordingSeconds === 59 && prevState.recordingMinutes === 59)
+            return {
+              ...prevState,
+              recordingHours: prevState.recordingHours + 1,
+              recordingMinutes: 0,
+              recordingSeconds: 0,
+            };
           if (prevState.recordingSeconds === 59)
             return {
               ...prevState,
