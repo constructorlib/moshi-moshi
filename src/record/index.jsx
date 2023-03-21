@@ -1,7 +1,7 @@
 import { Icon } from "components/icon";
 
 import { ButtonGroup, Checkbox, List, ListItem, Page, MetaInfo, Timer } from "./index.styled";
-import { BsXLg, BsMicFill, BsPlusLg } from "react-icons/bs";
+import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import useRecorder from "hooks/useRecorder";
 import { formatTime } from "utils/time";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { startRecording, saveRecording } from "handlers/recorderControl";
+import { startRecording, saveRecording, pauseRecording } from "handlers/recorderControl";
 
 const initialState = {
   recordingHours: 0,
@@ -101,5 +101,7 @@ export default function useRecorder() {
     startRecording: () => startRecording(setRecorderState),
     cancelRecording: () => setRecorderState(initialState),
     saveRecording: () => saveRecording(recorderState.mediaRecorder),
+    pauseRecording: () => pauseRecording(recorderState.mediaRecorder),
+    resumeRecording: () => resumeRecording(recorderState.mediaRecorder),
   };
 }
