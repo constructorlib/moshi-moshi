@@ -25,6 +25,8 @@ export const Timer = styled.div`
 export const List = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  margin: 3rem 0;
 `;
 export const ListItem = styled.div``;
 export const Checkbox = styled.input.attrs({ type: "checkbox" })``;
