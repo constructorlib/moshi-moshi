@@ -20,7 +20,10 @@ const Record = () => {
   } = useAudioRecorder();
 
   const handleDiscard = () => {};
-  const handleSave = () => {};
+  const handleSave = () => {
+    stopRecording();
+    console.log(window.URL.createObjectURL(recordingBlob));
+  };
 
   const initState = () => (
     <Icon
