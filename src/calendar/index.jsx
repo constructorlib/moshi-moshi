@@ -1,4 +1,4 @@
-import { Page } from "@calendar/index.styled.js";
+import { Page } from "./index.styled";
 
 const Calendar = () => {
   return <Page>Calendar</Page>;
