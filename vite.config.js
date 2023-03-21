@@ -21,7 +21,8 @@ export default defineConfig({
     alias: {
       auth: path.resolve(__dirname, "./src/auth"),
       calendar: path.resolve(__dirname, "./src/calendar"),
-      dit: path.resolve(__dirname, "./src/edit"),
+      components: path.resolve(__dirname, "./src/components"),
+      edit: path.resolve(__dirname, "./src/edit"),
       record: path.resolve(__dirname, "./src/record"),
       styles: path.resolve(__dirname, "./src/styles"),
     },
