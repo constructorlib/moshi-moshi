@@ -8,13 +8,14 @@ import { formatTime } from "utils/time";
 
 const Record = () => {
   const { recorderState, startRecording, saveRecording, cancelRecording } = useRecorder();
-  const { audio, recordingMinutes, recordingSeconds, initRecording } = recorderState;
+  const { audio, recordingHours, recordingMinutes, recordingSeconds, initRecording } =
+    recorderState;
 
   return (
     <Page>
       <MetaInfo>
         <Timer>
-          00:{formatTime(recordingMinutes)}:{formatTime(recordingSeconds)}
+          {formatTime(recordingHours)}:{formatTime(recordingMinutes)}:{formatTime(recordingSeconds)}
         </Timer>
       </MetaInfo>
       <List>
