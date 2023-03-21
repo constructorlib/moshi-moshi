@@ -17,3 +17,11 @@ export async function startRecording(setRecorderState) {
 export function saveRecording(recorder) {
   if (recorder.state !== "inactive") recorder.stop();
 }
+
+export function pauseRecording(recorder) {
+  if (recorder.state !== "inactive") recorder.pause();
+}
+
+export function resumeRecording(recorder) {
+  if (recorder.state === "inactive") recorder.resume();
+}
