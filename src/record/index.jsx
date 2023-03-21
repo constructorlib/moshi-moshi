@@ -3,12 +3,19 @@ import { Icon } from "components/icon";
 import { ButtonGroup, Checkbox, List, ListItem, Page, MetaInfo, Timer } from "./index.styled";
 import { BsXLg, BsMicFill, BsPlusLg } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
+import useRecorder from "hooks/useRecorder";
+import { formatTime } from "utils/time";
 
 const Record = () => {
+  const { recorderState, startRecording, saveRecording, cancelRecording } = useRecorder();
+  const { audio, recordingMinutes, recordingSeconds, initRecording } = recorderState;
+
   return (
     <Page>
       <MetaInfo>
-        <Timer>00:10:30</Timer>
+        <Timer>
+          00:{formatTime(recordingMinutes)}:{formatTime(recordingSeconds)}
+        </Timer>
       </MetaInfo>
       <List>
         <ListItem>
@@ -38,13 +45,14 @@ const Record = () => {
       </List>
 
       <ButtonGroup>
-        <Icon icon={BsXLg} bgc="dim">
+        <Icon onClick={cancelRecording} icon={BsXLg} bgc="dim">
           Discard
         </Icon>
 
         <Icon
           style={{ marginTop: "-5rem" }}
-          icon={true ? BsPlusLg : BsMicFill}
+          icon={recordingSeconds === 0 ? BsMicFill : BsPlusLg}
+          onClick={recordingSeconds === 0 ? startRecording : saveRecording}
           size="lg"
           bgc="brand"
         />
