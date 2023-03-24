@@ -19,12 +19,15 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@/": path.resolve(__dirname, "./src/*"),
-      "@auth": path.resolve(__dirname, "./src/auth"),
-      "@calendar": path.resolve(__dirname, "./src/calendar"),
-      "@edit": path.resolve(__dirname, "./src/edit"),
-      "@record": path.resolve(__dirname, "./src/record"),
-      "@styles": path.resolve(__dirname, "./src/styles"),
+      auth: path.resolve(__dirname, "./src/auth"),
+      calendar: path.resolve(__dirname, "./src/calendar"),
+      components: path.resolve(__dirname, "./src/components"),
+      edit: path.resolve(__dirname, "./src/edit"),
+      hooks: path.resolve(__dirname, "./src/hooks"),
+      handlers: path.resolve(__dirname, "./src/handlers"),
+      record: path.resolve(__dirname, "./src/record"),
+      styles: path.resolve(__dirname, "./src/styles"),
+      utils: path.resolve(__dirname, "./src/utils"),
     },
   },
 });

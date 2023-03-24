@@ -5,6 +5,12 @@ export const reset = css`
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --bg-color: 33, 33, 33; //#212121
+    --dim-color: 65, 53, 67; //#413543
+    --brand-color: 143, 67, 238; //#8f43ee
+    --contrast-color: 240, 235, 141; //#f0eb8d
+    --text-color: 250, 239, 221; //#faefdd;
   }
   * {
     margin: 0;
