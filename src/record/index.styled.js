@@ -28,9 +28,13 @@ export const List = styled.div`
   flex-grow: 1;
   margin: 3rem 0;
 `;
-export const ListItem = styled.div``;
+export const ListItem = styled.div`
+  color: rgba(var(--text-color));
+`;
 export const Checkbox = styled.input.attrs({ type: "checkbox" })``;
-export const Label = styled.div``;
+export const Label = styled.div`
+  color: rgba(var(--text-color));
+`;
 
 export const ButtonGroup = styled.div`
   width: 100%;

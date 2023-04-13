@@ -4,9 +4,20 @@ import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons
 import { AiOutlineCheck } from "react-icons/ai";
 
 import { Icon } from "components/icon";
-import { ButtonGroup, Checkbox, List, ListItem, Page, MetaInfo, Timer } from "./index.styled";
+import {
+  ButtonGroup,
+  Checkbox,
+  List,
+  ListItem,
+  Page,
+  MetaInfo,
+  Timer,
+  Label,
+} from "./index.styled";
 import { getFormatedTime } from "utils/time";
-import { useEffect } from "react";
+import Modal from "components/modal";
+import ElasticSearch from "components/elasticSearch";
+import { useState } from "react";
 
 const Record = () => {
   const {
@@ -19,12 +30,28 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
-  const handleDiscard = () => {};
-  const handleSave = () => {
-    stopRecording();
-    console.log(window.URL.createObjectURL(recordingBlob));
+  const [modal, setModal] = useState(false);
+  const storedOptions = JSON.parse(localStorage.getItem("tags")) ?? [];
+  const [options, setOptions] = useState(storedOptions);
+  const [timestamps, setTimestamps] = useState([]);
+
+  const handleDiscard = () => {
+    localStorage.setItem("tags", options);
   };
 
+  const handleSave = () => {
+    stopRecording();
+    localStorage.setItem("tags", options);
+    console.log(window.URL.createObjectURL(recordingBlob));
+  };
+  const onAddTag = (options) => {
+    console.log(options);
+    setOptions((prev) => [...prev, ...options]);
+    setTimestamps((prev) => {
+      options.forEach((e) => (e.time = recordingTime));
+      return options;
+    });
+  };
   const initState = () => (
     <Icon
       onClick={startRecording}
@@ -34,6 +61,10 @@ const Record = () => {
       bgc="brand"
     />
   );
+
+  const handleAdd = () => {
+    setModal(true);
+  };
 
   const recordingState = () => {
     return (
@@ -50,7 +81,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon icon={BsPlusLg} bgc="dim">
+        <Icon onClick={handleAdd} icon={BsPlusLg} bgc="dim">
           Add
         </Icon>
       </>
@@ -84,9 +115,14 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        <ListItem>
-          <Checkbox /> Foo
-        </ListItem>
+        {timestamps.map(
+          (e) =>
+            console.log(e) || (
+              <ListItem key={e.label}>
+                <Checkbox /> <Label>{e.label}</Label>
+              </ListItem>
+            )
+        )}
       </List>
 
       <ButtonGroup>
@@ -94,6 +130,10 @@ const Record = () => {
         {isRecording && !isPaused && recordingState()}
         {isRecording && isPaused && pausedState()}
       </ButtonGroup>
+
+      <Modal centered onHide={() => setModal(false)} show={modal}>
+        <ElasticSearch placeholder="Add note" options={storedOptions} onChange={onAddTag} />
+      </Modal>
     </Page>
   );
 };
