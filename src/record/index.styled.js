@@ -42,3 +42,42 @@ export const ButtonGroup = styled.div`
   justify-content: space-around;
   align-items: center;
 `;
+
+export const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(var(--bg-color));
+  :has(.modal-content) {
+    background-color: transparent;
+  }
+
+  padding: 1rem;
+  border-radius: 0.8rem;
+`;
+
+export const InputGroup = styled.div`
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  ${typography.body_01_600}
+  color: white;
+`;
+export const Input = styled.input`
+  width: 5rem;
+  height: 3rem;
+  margin: 0 1rem;
+  text-align: center;
+  outline: none;
+  ${typography.caption_01}
+
+  /* Hide */
+  appearance: textfield !important;
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+`;
