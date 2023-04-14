@@ -4,7 +4,7 @@ import styles from "./elasticSearch.styled";
 
 const animatedComponents = makeAnimated();
 
-const ElasticSearch = ({ options, defaultValue, ...props }) => {
+const ElasticSearch = ({ defaultValue, ...props }) => {
   return (
     <CreatableSelect
       closeMenuOnSelect={false}
@@ -13,7 +13,6 @@ const ElasticSearch = ({ options, defaultValue, ...props }) => {
       styles={styles}
       isMulti
       menuIsOpen
-      options={options}
       {...props}
     />
   );
