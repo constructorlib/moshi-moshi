@@ -25,10 +25,7 @@ export const loadingIndicator = (baseStyles, state) => ({ ...baseStyles });
 export const loadingMessage = (baseStyles, state) => ({ ...baseStyles });
 export const menu = (baseStyles, state) => ({
   ...baseStyles,
-  backgroundColor: "rgba(var(--dim-color))",
-  border: "1px solid rgba(var(--contrast-color))",
-  color: "rgba(var(--text-color))",
-  borderRadius: "8px",
+  display: "none",
 });
 export const menuList = (baseStyles, state) => ({
   ...baseStyles,
@@ -53,10 +50,11 @@ export const multiValueRemove = (baseStyles, state) => ({
   height: "100%",
   borderRadius: "50%",
 });
-export const noOptionsMessage = (baseStyles, state) => ({ ...baseStyles });
+export const noOptionsMessage = (baseStyles, state) => ({ ...baseStyles, display: "none" });
 export const option = (baseStyles, state) => ({
   ...baseStyles,
-  display: "flex",
+
+  display: "none",
   alignItems: "center",
   backgroundColor: "transparent",
   border: "1px solid rgba(var())",
