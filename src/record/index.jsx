@@ -1,7 +1,8 @@
 import { useAudioRecorder } from "react-audio-voice-recorder";
 
 import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons/bs";
-import { AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineSave } from "react-icons/ai";
+import { VscDiscard } from "react-icons/vsc";
 
 import { Icon } from "components/icon";
 import {
@@ -13,6 +14,9 @@ import {
   MetaInfo,
   Timer,
   Label,
+  ModalContent,
+  InputGroup,
+  Input,
 } from "./index.styled";
 import { getFormatedTime } from "utils/time";
 import Modal from "components/modal";
@@ -30,9 +34,16 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
-  const [modal, setModal] = useState(false);
-  const storedOptions = JSON.parse(localStorage.getItem("tags")) ?? [];
-  const [options, setOptions] = useState(storedOptions);
+  const [modal, setModal] = useState(true);
+
+  const [options, setOptions] = useState([
+    { label: "Important", value: "Important" },
+    { label: "Crucial", value: "Crucial" },
+    { label: "Interesting", value: "Interesting" },
+    { label: "Agree", value: "Agree" },
+    { label: "Diagree", value: "Diagree" },
+    { label: "Ask later", value: "Ask later" },
+  ]);
   const [timestamps, setTimestamps] = useState([]);
 
   const handleDiscard = () => {
@@ -46,11 +57,11 @@ const Record = () => {
   };
   const onAddTag = (options) => {
     console.log(options);
-    setOptions((prev) => [...prev, ...options]);
-    setTimestamps((prev) => {
-      options.forEach((e) => (e.time = recordingTime));
-      return options;
-    });
+    setOptions(options);
+    // setTimestamps((prev) => {
+    //   options.forEach((e) => (e.time = recordingTime));
+    //   return options;
+    // });
   };
   const initState = () => (
     <Icon
@@ -115,14 +126,11 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        {timestamps.map(
-          (e) =>
-            console.log(e) || (
-              <ListItem key={e.label}>
-                <Checkbox /> <Label>{e.label}</Label>
-              </ListItem>
-            )
-        )}
+        {timestamps.map((e) => (
+          <ListItem key={e.label}>
+            <Checkbox /> <Label>{e.label}</Label>
+          </ListItem>
+        ))}
       </List>
 
       <ButtonGroup>
@@ -131,8 +139,25 @@ const Record = () => {
         {isRecording && isPaused && pausedState()}
       </ButtonGroup>
 
-      <Modal centered onHide={() => setModal(false)} show={modal}>
-        <ElasticSearch placeholder="Add note" options={storedOptions} onChange={onAddTag} />
+      <Modal centered onHide={() => console.log("e") || setModal(false)} show={modal}>
+        <ModalContent>
+          <InputGroup>
+            <Input type="number" defaultValue={12} /> -
+            <Input type="number" defaultValue={12 + 4} />
+          </InputGroup>
+          <InputGroup>
+            <ElasticSearch placeholder="Add note" onChange={onAddTag} />
+          </InputGroup>
+          <ButtonGroup>
+            <Icon onClick={stopRecording} icon={VscDiscard} bgc="dim">
+              Discard
+            </Icon>
+
+            <Icon onClick={handleAdd} icon={AiOutlineSave} bgc="dim">
+              Save
+            </Icon>
+          </ButtonGroup>
+        </ModalContent>
       </Modal>
     </Page>
   );
