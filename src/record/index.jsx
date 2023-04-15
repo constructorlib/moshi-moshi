@@ -119,23 +119,18 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        <div className="mx-1 flex rounded border border-white p-2 text-white">
-          <div className="flex items-center ">
-            <button className="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-fuchsia-900 text-3xl">
-              <BsPlusLg />
-            </button>
-            <span>Add a tag</span>
-          </div>
-        </div>
+        <ListItem>
+          <Icon onClick={handleSave} icon={BsPlusLg} bgc="dim">
+            Add tag
+          </Icon>
+        </ListItem>
+
         {timestamps.map(
           (e) =>
             console.log(e) || (
-              <div
-                key={e.time}
-                className="text-xlg mx-1 flex rounded border border-white p-2 text-white"
-              >
-                <input type="checkbox" /> <div>{e?.tags?.join(",")}</div>
-              </div>
+              <ListItem key={e.time}>
+                <Checkbox /> <Label>{e?.tags?.join(",")}</Label>
+              </ListItem>
             )
         )}
       </List>
