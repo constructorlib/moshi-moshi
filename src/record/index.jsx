@@ -119,24 +119,23 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        <ListItem onClick={() => setModal(true)}>
-          <Icon
-            container={
-              "flex-direction: row; justify-content: start; font-size: 16px; margin-right: 20px"
-            }
-            icon={BsPlusLg}
-            bgc="dim"
-            size="sm"
-          >
-            Add a tag
-          </Icon>
-        </ListItem>
+        <div className="mx-1 flex rounded border border-white p-2 text-white">
+          <div className="flex items-center ">
+            <button className="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-fuchsia-900 text-3xl">
+              <BsPlusLg />
+            </button>
+            <span>Add a tag</span>
+          </div>
+        </div>
         {timestamps.map(
           (e) =>
             console.log(e) || (
-              <ListItem key={e.time}>
-                <Checkbox /> <Label>{e?.tags?.join(",")}</Label> --- {e.time}
-              </ListItem>
+              <div
+                key={e.time}
+                className="text-xlg mx-1 flex rounded border border-white p-2 text-white"
+              >
+                <input type="checkbox" /> <div>{e?.tags?.join(",")}</div>
+              </div>
             )
         )}
       </List>
