@@ -1,7 +1,7 @@
 import { useAudioRecorder } from "react-audio-voice-recorder";
 
 import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons/bs";
-import { AiOutlineCheck, AiOutlineSave } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import { VscDiscard } from "react-icons/vsc";
 
 import { Icon } from "components/icon";
@@ -34,34 +34,21 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
-  const [options, setOptions] = useState([
-    { label: "Important", value: "Important" },
-    { label: "Crucial", value: "Crucial" },
-    { label: "Interesting", value: "Interesting" },
-    { label: "Agree", value: "Agree" },
-    { label: "Diagree", value: "Diagree" },
-    { label: "Ask later", value: "Ask later" },
-  ]);
+  const [options, setOptions] = useState([]);
   const [timestamps, setTimestamps] = useState([]);
 
-  const handleDiscard = () => {
-    localStorage.setItem("tags", options);
-  };
+  const handleDiscard = () => {};
 
   const handleSave = () => {
     stopRecording();
-    localStorage.setItem("tags", options);
+
     console.log(window.URL.createObjectURL(recordingBlob));
   };
   const onAddTag = (options) => {
     console.log(options);
     setOptions(options);
-    // setTimestamps((prev) => {
-    //   options.forEach((e) => (e.time = recordingTime));
-    //   return options;
-    // });
   };
   const initState = () => (
     <Icon
@@ -74,13 +61,19 @@ const Record = () => {
   );
 
   const handleAdd = () => {
-    setModal(true);
+    console.log(options);
+    setTimestamps((prev) => {
+      const tags = options.map((e) => e.value);
+      const time = recordingTime;
+      return [...prev, { tags, time }];
+    });
+    setModal(false);
   };
 
   const recordingState = () => {
     return (
       <>
-        <Icon onClick={stopRecording} icon={BsStopFill} bgc="dim">
+        <Icon onClick={stopRecording} icon={BsStopFill} bgc="dim" size="md">
           Stop
         </Icon>
 
@@ -92,7 +85,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon onClick={handleAdd} icon={BsPlusLg} bgc="dim">
+        <Icon onClick={() => setModal(true)} icon={BsPlusLg} bgc="dim" size="md">
           Add
         </Icon>
       </>
@@ -101,7 +94,7 @@ const Record = () => {
   const pausedState = () => {
     return (
       <>
-        <Icon onClick={handleDiscard} icon={BsXLg} bgc="dim">
+        <Icon onClick={handleDiscard} icon={BsXLg} bgc="dim" size="md">
           Discard
         </Icon>
 
@@ -113,7 +106,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim">
+        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim" size="md">
           Save
         </Icon>
       </>
@@ -126,11 +119,26 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        {timestamps.map((e) => (
-          <ListItem key={e.label}>
-            <Checkbox /> <Label>{e.label}</Label>
-          </ListItem>
-        ))}
+        <ListItem onClick={() => setModal(true)}>
+          <Icon
+            container={
+              "flex-direction: row; justify-content: start; font-size: 16px; margin-right: 20px"
+            }
+            icon={BsPlusLg}
+            bgc="dim"
+            size="sm"
+          >
+            Add a tag
+          </Icon>
+        </ListItem>
+        {timestamps.map(
+          (e) =>
+            console.log(e) || (
+              <ListItem key={e.time}>
+                <Checkbox /> <Label>{e?.tags?.join(",")}</Label> --- {e.time}
+              </ListItem>
+            )
+        )}
       </List>
 
       <ButtonGroup>
@@ -146,15 +154,14 @@ const Record = () => {
             <Input type="number" defaultValue={12 + 4} />
           </InputGroup>
           <InputGroup>
-            <ElasticSearch placeholder="Add note" onChange={onAddTag} />
+            <ElasticSearch autoFocus placeholder="Add note" onChange={onAddTag} />
           </InputGroup>
           <ButtonGroup>
             <Icon onClick={stopRecording} icon={VscDiscard} bgc="dim">
               Discard
             </Icon>
-
-            <Icon onClick={handleAdd} icon={AiOutlineSave} bgc="dim">
-              Save
+            <Icon onClick={handleAdd} icon={BsPlusLg} bgc="dim">
+              Add tags
             </Icon>
           </ButtonGroup>
         </ModalContent>

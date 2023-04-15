@@ -30,6 +30,13 @@ export const List = styled.div`
 `;
 export const ListItem = styled.div`
   color: rgba(var(--text-color));
+  display: flex;
+  padding: 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid white;
+  margin: 0.5rem 0;
+  ${typography.body_01_400}
+  font-size: 19px;
 `;
 export const Checkbox = styled.input.attrs({ type: "checkbox" })``;
 export const Label = styled.div`
