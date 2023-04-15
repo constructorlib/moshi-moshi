@@ -27,6 +27,8 @@ export const Container = styled.div`
   align-items: center;
   color: rgba(var(--text-color));
   ${typography.caption_02}
+
+  ${({ container }) => container}
 `;
 
 export const IconContainer = styled(Btn)`
@@ -46,10 +48,13 @@ export const IconContainer = styled(Btn)`
     switch (size) {
       case "sm":
         return sm;
+      case "md":
+        return md;
       case "lg":
         return lg;
+
       default:
-        return md;
+        return size;
     }
   }};
 `;
