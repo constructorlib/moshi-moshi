@@ -21,14 +21,12 @@ import {
   MetaInfo,
   Timer,
   Label,
-  InputGroup,
   Input,
   IconContainer,
   Checkbox,
-  CheckboxContent,
 } from "./index.styled";
 import { getFormatedTime } from "utils/time";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Record = () => {
   const {
@@ -44,24 +42,25 @@ const Record = () => {
   const [timestamps, setTimestamps] = useState([]);
   const [toggleInput, setToggleInput] = useState(false);
   const [value, setValue] = useState("");
+  const [blob, setBlob] = useState(null);
+  const handleDiscard = () => {
+    stopRecording();
 
-  const handleDiscard = () => {};
+    console.log(isRecording);
+    console.log(isPaused);
+
+    setTimestamps([]);
+    setToggleInput(false);
+  };
 
   const handleSave = () => {
     stopRecording();
 
-    console.log(window.URL.createObjectURL(recordingBlob));
-  };
-  const handleChange = (e) => {
-    console.log(e);
-    console.log(e.keyCode);
-  };
+    console.log(isRecording);
+    console.log(isPaused);
 
-  const handleAdd = () => {
-    setTimestamps((prev) => {
-      const time = recordingTime;
-      return [...prev, { time }];
-    });
+    console.log(recordingBlob);
+    setBlob(recordingBlob);
   };
 
   //********************* RECORDING STATES ***********************
@@ -89,7 +88,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon icon={BsPlusLg} bgc="dim" size="md">
+        <Icon icon={BsPlusLg} onClick={() => setToggleInput(true)} bgc="dim" size="md">
           Add
         </Icon>
       </>
@@ -153,25 +152,23 @@ const Record = () => {
           )}
         </ListItem>
 
-        {timestamps.map(
-          (e) =>
-            console.log(e) || (
-              <ListItem key={e?.id}>
-                <Checkbox border="text" onClick={handleSave}></Checkbox>
-                <Label style={{ flexGrow: "1" }}>{e?.tag}</Label>
+        {timestamps.map((e) => (
+          <ListItem key={e?.id}>
+            <Checkbox border="text" onClick={handleSave}></Checkbox>
+            <Label style={{ flexGrow: "1" }}>{e?.tag}</Label>
 
-                <BsFillTrash3Fill
-                  onClick={() => {
-                    setTimestamps((prev) => prev.filter((tag) => tag?.id !== e?.id));
-                  }}
-                  style={{ width: "2rem", height: "2rem", fill: "rgba(var(--text-color))" }}
-                />
-              </ListItem>
-            )
-        )}
+            <BsFillTrash3Fill
+              onClick={() => {
+                setTimestamps((prev) => prev.filter((tag) => tag?.id !== e?.id));
+              }}
+              style={{ width: "2rem", height: "2rem", fill: "rgba(var(--text-color))" }}
+            />
+          </ListItem>
+        ))}
       </List>
 
       <ButtonGroup>
+        {blob && <audio controls src={blob}></audio>}
         {!isRecording && initState()}
         {isRecording && !isPaused && recordingState()}
         {isRecording && isPaused && pausedState()}
