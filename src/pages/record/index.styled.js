@@ -31,14 +31,25 @@ export const List = styled.div`
 export const ListItem = styled.div`
   color: rgba(var(--text-color));
   display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
   padding: 1rem;
   border-radius: 0.4rem;
-  border: 1px solid white;
+  border: 0.5px solid #cac7c7;
   margin: 0.5rem 0;
-  ${typography.body_01_400}
   font-size: 19px;
+  background-color: rgba(var(--dim-color));
+  /* background-color: ; */
+  ${typography.body_01_400} /* ${typography.caption_01} */
+  font-size: 2rem;
+
+  /* span {
+    color: rgba(var(--brand-color));
+  } */
 `;
-export const Checkbox = styled.input.attrs({ type: "checkbox" })``;
+export const _checkbox = styled.input.attrs({ type: "checkbox" })`
+  display: none;
+`;
 export const Label = styled.div`
   color: rgba(var(--text-color));
 `;
@@ -73,19 +84,12 @@ export const InputGroup = styled.div`
   color: white;
 `;
 export const Input = styled.input`
-  width: 5rem;
-  height: 3rem;
-  margin: 0 1rem;
-  text-align: center;
+  background-color: transparent;
+  border: none;
   outline: none;
-  ${typography.caption_01}
-
-  /* Hide */
-  appearance: textfield !important;
-  ::-webkit-inner-spin-button,
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0 !important;
+  color: rgba(var(--text-color));
+  ::placeholder {
+    color: rgba(var(--text-color), 0.7);
   }
 `;
 
@@ -93,10 +97,21 @@ export const IconContainer = styled.div`
   width: 2.5rem;
   height: 2.5rem;
 
-  background-color: rgba(var(--brand-color));
+  background-color: ${({ bgc }) => (bgc ? `rgba(var(--${bgc}-color));` : "transparent;")};
+  border: 1px solid ${({ border }) => (border ? `rgba(var(--${border}-color));` : "transparent")};
+  box-sizing: border-box;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1rem;
+  flex-shrink: 0;
+`;
+
+export const Checkbox = styled(IconContainer)`
+  position: relative;
+`;
+
+export const CheckboxContent = styled.span`
+  position: absolute;
 `;

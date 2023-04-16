@@ -1,12 +1,20 @@
 import { useAudioRecorder } from "react-audio-voice-recorder";
+import { v4 as uuidv4 } from "uuid";
 
-import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons/bs";
+import {
+  BsXLg,
+  BsMicFill,
+  BsPlusLg,
+  BsPauseFill,
+  BsStopFill,
+  BsFillTrash3Fill,
+} from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 
 import { Icon } from "components/icon";
 import {
   ButtonGroup,
-  Checkbox,
+  _checkbox,
   List,
   ListItem,
   Page,
@@ -16,6 +24,8 @@ import {
   InputGroup,
   Input,
   IconContainer,
+  Checkbox,
+  CheckboxContent,
 } from "./index.styled";
 import { getFormatedTime } from "utils/time";
 import { useState } from "react";
@@ -31,8 +41,9 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
-  const [options, setOptions] = useState([]);
   const [timestamps, setTimestamps] = useState([]);
+  const [toggleInput, setToggleInput] = useState(false);
+  const [value, setValue] = useState("");
 
   const handleDiscard = () => {};
 
@@ -41,16 +52,15 @@ const Record = () => {
 
     console.log(window.URL.createObjectURL(recordingBlob));
   };
-  const onAddTag = (options) => {
-    setOptions(options);
+  const handleChange = (e) => {
+    console.log(e);
+    console.log(e.keyCode);
   };
 
   const handleAdd = () => {
-    console.log(options);
     setTimestamps((prev) => {
-      const tags = options.map((e) => e.value);
       const time = recordingTime;
-      return [...prev, { tags, time }];
+      return [...prev, { time }];
     });
   };
 
@@ -113,18 +123,49 @@ const Record = () => {
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
       <List>
-        <ListItem>
-          <IconContainer onClick={handleSave}>
-            <BsPlusLg />
+        <ListItem
+          onClick={
+            toggleInput
+              ? () => console.log("toggleInput: True")
+              : () => setToggleInput((prev) => !prev)
+          }
+        >
+          <IconContainer border="brand" bgc="brand" onClick={handleSave}>
+            <BsPlusLg style={{ fill: "rgba(var(--text-color))" }} />
           </IconContainer>
-          Add tag
+          {toggleInput ? (
+            <Input
+              onChange={({ target }) => setValue(target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.code === "Enter" || e.keyCode === 13) {
+                  setTimestamps((prev) => [
+                    { id: uuidv4(), tag: value, time: recordingTime },
+                    ...prev,
+                  ]);
+                  setToggleInput(false);
+                }
+              }}
+              autoFocus
+              placeholder="Press enter to add a tag"
+            />
+          ) : (
+            <span>Add a tag</span>
+          )}
         </ListItem>
 
         {timestamps.map(
           (e) =>
             console.log(e) || (
-              <ListItem key={e.time}>
-                <Checkbox /> <Label>{e?.tags?.join(",")}</Label>
+              <ListItem key={e?.id}>
+                <Checkbox border="text" onClick={handleSave}></Checkbox>
+                <Label style={{ flexGrow: "1" }}>{e?.tag}</Label>
+
+                <BsFillTrash3Fill
+                  onClick={() => {
+                    setTimestamps((prev) => prev.filter((tag) => tag?.id !== e?.id));
+                  }}
+                  style={{ width: "2rem", height: "2rem", fill: "rgba(var(--text-color))" }}
+                />
               </ListItem>
             )
         )}
