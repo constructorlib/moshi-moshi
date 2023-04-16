@@ -6,9 +6,10 @@ export const reset = css`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --bg-color: 33, 33, 33; //#212121
-    --dim-color: 65, 53, 67; //#413543
-    --brand-color: 143, 67, 238; //#8f43ee
+    --bg-color: 6, 7, 13; //#06070d
+    --dim-color: 22, 26, 31; //#161a1f
+    --dimmer-color: 34, 39, 43; //#22272b
+    --brand-color: 0, 229, 139; //#00e58b;
     --contrast-color: 240, 235, 141; //#f0eb8d
     --text-color: 250, 239, 221; //#faefdd;
   }

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Record from "./record";
-import Edit from "./edit";
-import Calendar from "./calendar";
+import Record from "./pages/record";
+import Edit from "./pages/edit";
+import Calendar from "./pages/calendar";
 
 export const router = createBrowserRouter([
   {
