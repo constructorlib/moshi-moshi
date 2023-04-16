@@ -88,3 +88,15 @@ export const Input = styled.input`
     margin: 0 !important;
   }
 `;
+
+export const IconContainer = styled.div`
+  width: 2.5rem;
+  height: 2.5rem;
+
+  background-color: rgba(var(--brand-color));
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+`;

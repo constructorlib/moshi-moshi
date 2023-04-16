@@ -17,6 +17,7 @@ import {
   ModalContent,
   InputGroup,
   Input,
+  IconContainer,
 } from "./index.styled";
 import { getFormatedTime } from "utils/time";
 import Modal from "components/modal";
@@ -120,9 +121,10 @@ const Record = () => {
       </MetaInfo>
       <List>
         <ListItem>
-          <Icon onClick={handleSave} icon={BsPlusLg} bgc="dim">
-            Add tag
-          </Icon>
+          <IconContainer onClick={handleSave}>
+            <BsPlusLg />
+          </IconContainer>
+          Add tag
         </ListItem>
 
         {timestamps.map(
