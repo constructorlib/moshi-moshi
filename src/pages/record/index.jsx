@@ -43,25 +43,17 @@ const Record = () => {
   const [toggleInput, setToggleInput] = useState(false);
   const [value, setValue] = useState("");
   const [blob, setBlob] = useState(null);
+
   const handleDiscard = () => {
     stopRecording();
-
-    console.log(isRecording);
-    console.log(isPaused);
-
     setTimestamps([]);
     setToggleInput(false);
   };
 
-  const handleSave = () => {
-    stopRecording();
-
-    console.log(isRecording);
-    console.log(isPaused);
-
-    console.log(recordingBlob);
-    setBlob(recordingBlob);
-  };
+  useEffect(() => {
+    if (!recordingBlob) return;
+    setBlob(URL.createObjectURL(recordingBlob));
+  }, [recordingBlob]);
 
   //********************* RECORDING STATES ***********************
   const initState = () => (
@@ -109,7 +101,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim" size="md">
+        <Icon onClick={stopRecording} icon={AiOutlineCheck} bgc="dim" size="md">
           Save
         </Icon>
       </>
@@ -129,7 +121,7 @@ const Record = () => {
               : () => setToggleInput((prev) => !prev)
           }
         >
-          <IconContainer border="brand" bgc="brand" onClick={handleSave}>
+          <IconContainer border="brand" bgc="brand" onClick={stopRecording}>
             <BsPlusLg style={{ fill: "rgba(var(--text-color))" }} />
           </IconContainer>
           {toggleInput ? (
@@ -154,7 +146,7 @@ const Record = () => {
 
         {timestamps.map((e) => (
           <ListItem key={e?.id}>
-            <Checkbox border="text" onClick={handleSave}></Checkbox>
+            <Checkbox border="text" onClick={stopRecording}></Checkbox>
             <Label style={{ flexGrow: "1" }}>{e?.tag}</Label>
 
             <BsFillTrash3Fill
@@ -168,7 +160,6 @@ const Record = () => {
       </List>
 
       <ButtonGroup>
-        {blob && <audio controls src={blob}></audio>}
         {!isRecording && initState()}
         {isRecording && !isPaused && recordingState()}
         {isRecording && isPaused && pausedState()}
