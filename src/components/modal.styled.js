@@ -5,4 +5,8 @@ import styled from "styled-components";
 export const Container = styled(Modal)`
   padding: 1rem;
   backdrop-filter: blur(5px);
+
+  .modal-content {
+    background-color: transparent;
+  }
 `;
