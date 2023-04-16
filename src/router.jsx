@@ -2,12 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Record from "./pages/record";
 import Edit from "./pages/edit";
 import Calendar from "./pages/calendar";
+import Foo from "./pages/foo";
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    Component: Record,
-  },
   {
     path: "/record",
     Component: Record,
@@ -19,6 +16,14 @@ export const router = createBrowserRouter([
   {
     path: "/edit",
     Component: Edit,
+  },
+  {
+    path: "/foo",
+    Component: Foo,
+  },
+  {
+    path: "/",
+    Component: Record,
   },
 ]);
 
