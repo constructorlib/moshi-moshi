@@ -1,8 +1,8 @@
 import { Container, IconContainer } from "./icon.styled";
 
-export const Icon = ({ icon, children, ...props }) => {
+export const Icon = ({ icon, children, container, ...props }) => {
   return (
-    <Container>
+    <Container {...{ container }}>
       <IconContainer {...props}>{icon()}</IconContainer>
       {children}
     </Container>

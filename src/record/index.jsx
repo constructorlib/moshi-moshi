@@ -4,9 +4,21 @@ import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons
 import { AiOutlineCheck } from "react-icons/ai";
 
 import { Icon } from "components/icon";
-import { ButtonGroup, Checkbox, List, ListItem, Page, MetaInfo, Timer } from "./index.styled";
+import {
+  ButtonGroup,
+  Checkbox,
+  List,
+  ListItem,
+  Page,
+  MetaInfo,
+  Timer,
+  Label,
+  InputGroup,
+  Input,
+  IconContainer,
+} from "./index.styled";
 import { getFormatedTime } from "utils/time";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const Record = () => {
   const {
@@ -19,12 +31,30 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
+  const [options, setOptions] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
+
   const handleDiscard = () => {};
+
   const handleSave = () => {
     stopRecording();
+
     console.log(window.URL.createObjectURL(recordingBlob));
   };
+  const onAddTag = (options) => {
+    setOptions(options);
+  };
 
+  const handleAdd = () => {
+    console.log(options);
+    setTimestamps((prev) => {
+      const tags = options.map((e) => e.value);
+      const time = recordingTime;
+      return [...prev, { tags, time }];
+    });
+  };
+
+  //********************* RECORDING STATES ***********************
   const initState = () => (
     <Icon
       onClick={startRecording}
@@ -34,11 +64,10 @@ const Record = () => {
       bgc="brand"
     />
   );
-
   const recordingState = () => {
     return (
       <>
-        <Icon onClick={stopRecording} icon={BsStopFill} bgc="dim">
+        <Icon onClick={stopRecording} icon={BsStopFill} bgc="dim" size="md">
           Stop
         </Icon>
 
@@ -50,7 +79,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon icon={BsPlusLg} bgc="dim">
+        <Icon icon={BsPlusLg} bgc="dim" size="md">
           Add
         </Icon>
       </>
@@ -59,7 +88,7 @@ const Record = () => {
   const pausedState = () => {
     return (
       <>
-        <Icon onClick={handleDiscard} icon={BsXLg} bgc="dim">
+        <Icon onClick={handleDiscard} icon={BsXLg} bgc="dim" size="md">
           Discard
         </Icon>
 
@@ -71,7 +100,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim">
+        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim" size="md">
           Save
         </Icon>
       </>
@@ -85,8 +114,20 @@ const Record = () => {
       </MetaInfo>
       <List>
         <ListItem>
-          <Checkbox /> Foo
+          <IconContainer onClick={handleSave}>
+            <BsPlusLg />
+          </IconContainer>
+          Add tag
         </ListItem>
+
+        {timestamps.map(
+          (e) =>
+            console.log(e) || (
+              <ListItem key={e.time}>
+                <Checkbox /> <Label>{e?.tags?.join(",")}</Label>
+              </ListItem>
+            )
+        )}
       </List>
 
       <ButtonGroup>
