@@ -7,12 +7,19 @@ import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js
 
 import { Container, Controls, Forward10, Pause, Play, Replay10 } from "./index.styled";
 
+const bg = "rgba(6, 7, 13, 1)";
+const dim = "rgba(22, 26, 31, 1)";
+const dimmer = "rgba(34, 39, 43, 1)";
+const text = "rgba(250, 239, 221, 1)";
+const brand = "rgba(0, 229, 139, 1)";
+const contrast = "rgba(240, 235, 141, 1)";
+
 const getRegions = (timestamps) => {
   const regions = timestamps?.map((item) => ({
     start: item?.time,
     end: item?.time + 60,
     loop: false,
-    color: "hsla(200, 50%, 70%, 0.4)",
+    color: "rgba(0, 229, 139, 0.5)",
     id: item?.id,
     data: item?.tag,
   }));
@@ -24,12 +31,11 @@ const getRegions = (timestamps) => {
 };
 
 const getOptions = (ref, plugins = []) => {
-  const color = "#faefdd";
   return {
     container: ref,
-    waveColor: color,
-    progressColor: color,
-    cursorColor: color,
+    waveColor: "rgba(250, 239, 221, 0.5)",
+    progressColor: brand,
+    cursorColor: brand,
     barWidth: 3,
     barRadius: 3,
     responsive: true,
@@ -55,7 +61,13 @@ export default function Waveform({ blob, timestamps, setTimestamps }) {
   // On component mount and when url changes
   useEffect(() => {
     const regions = getRegions(timestamps);
-    const timeline = TimelinePlugin.create({ container: timelineRef.current });
+    const timeline = TimelinePlugin.create({
+      container: timelineRef.current,
+      primaryColor: text,
+      secondaryColor: text,
+      primaryFontColor: text,
+      secondaryFontColor: text,
+    });
     const options = getOptions(waveformRef.current, [regions, timeline]);
     wavesurfer.current = WaveSurfer.create(options);
 
