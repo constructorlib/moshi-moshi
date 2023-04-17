@@ -20,6 +20,7 @@ const icon = css`
   font-size: 3rem;
   margin: 1rem;
   cursor: pointer;
+  color: rgba(var(--text-color));
 `;
 
 export const Forward10 = styled(MdForward10)`
