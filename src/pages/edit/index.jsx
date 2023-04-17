@@ -1,7 +1,19 @@
-import { Page } from "./index.styled";
+import { useState } from "react";
+import { useLocation } from "react-router";
 
-const Edit = () => {
-  return <Page>Edit</Page>;
+import { Page } from "./index.styled";
+import Wave from "../../components/wave";
+
+export const Edit = () => {
+  const { state } = useLocation();
+  const { blob, data } = state;
+
+  const [timestamps, setTimestamps] = useState(data);
+  return (
+    <Page>
+      <Wave {...{ blob, timestamps, setTimestamps }} />
+    </Page>
+  );
 };
 
 export default Edit;
