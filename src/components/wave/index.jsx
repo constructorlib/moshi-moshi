@@ -8,7 +8,7 @@ import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js
 import { Container, Controls, Forward10, Pause, Play, Replay10 } from "./index.styled";
 
 const getRegions = (timestamps) => {
-  const regions = timestamps.map((item) => ({
+  const regions = timestamps?.map((item) => ({
     start: item?.time,
     end: item?.time + 60,
     loop: false,
@@ -24,11 +24,12 @@ const getRegions = (timestamps) => {
 };
 
 const getOptions = (ref, plugins = []) => {
+  const color = "#faefdd";
   return {
     container: ref,
-    waveColor: "#faefdd",
-    progressColor: "skyblue",
-    cursorColor: "skyblue",
+    waveColor: color,
+    progressColor: color,
+    cursorColor: color,
     barWidth: 3,
     barRadius: 3,
     responsive: true,
