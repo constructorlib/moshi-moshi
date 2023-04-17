@@ -9,9 +9,9 @@ export const reset = css`
     --bg-color: 6, 7, 13; //#06070d
     --dim-color: 22, 26, 31; //#161a1f
     --dimmer-color: 34, 39, 43; //#22272b
-    --brand-color: 0, 229, 139; //#00e58b;
+    --text-color: 250, 239, 221; //#faefdd
+    --brand-color: 0, 229, 139; //#00e58b
     --contrast-color: 240, 235, 141; //#f0eb8d
-    --text-color: 250, 239, 221; //#faefdd;
   }
   * {
     margin: 0;
