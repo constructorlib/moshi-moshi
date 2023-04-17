@@ -11,7 +11,7 @@ import {
 } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 
-import { Icon } from "components/icon";
+import { Icon } from "components/icon/icon";
 import {
   ButtonGroup,
   _checkbox,
@@ -27,6 +27,7 @@ import {
 } from "./index.styled";
 import { getFormatedTime } from "utils/time";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const Record = () => {
   const {
@@ -42,17 +43,30 @@ const Record = () => {
   const [timestamps, setTimestamps] = useState([]);
   const [toggleInput, setToggleInput] = useState(false);
   const [value, setValue] = useState("");
-  const [blob, setBlob] = useState(null);
+  const [save, setSave] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleDiscard = () => {
     stopRecording();
     setTimestamps([]);
+    setSave(false);
+    setToggleInput(false);
+  };
+
+  const handleSave = () => {
+    stopRecording();
+    setSave(true);
     setToggleInput(false);
   };
 
   useEffect(() => {
-    if (!recordingBlob) return;
-    setBlob(URL.createObjectURL(recordingBlob));
+    //* recording isn't ready or user pressed discard
+    if (!recordingBlob || !save) return;
+
+    //* recording is over and user pressed save
+    // setBlob(recordingBlob);
+    navigate("/edit", { state: { blob: recordingBlob, data: timestamps } });
   }, [recordingBlob]);
 
   //********************* RECORDING STATES ***********************
@@ -101,7 +115,7 @@ const Record = () => {
           bgc="brand"
         />
 
-        <Icon onClick={stopRecording} icon={AiOutlineCheck} bgc="dim" size="md">
+        <Icon onClick={handleSave} icon={AiOutlineCheck} bgc="dim" size="md">
           Save
         </Icon>
       </>
