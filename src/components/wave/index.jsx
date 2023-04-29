@@ -22,11 +22,15 @@ const getRegions = (timestamps) => {
     color: "rgba(0, 229, 139, 0.5)",
     id: item?.id,
     data: item?.tag,
+    // resize: false,
+    // drag: false,
   }));
 
   return RegionsPlugin.create({
     regionsMinLength: 2,
     regions: regions,
+    resize: false,
+    drag: false,
   });
 };
 
@@ -107,7 +111,6 @@ export default function Waveform({ blob, timestamps, setTimestamps }) {
   };
   return (
     <Container>
-      <div>Session audio recording</div>
       <div id="waveform" ref={waveformRef} />
       <div id="timeline" ref={timelineRef}></div>
       <Controls>
