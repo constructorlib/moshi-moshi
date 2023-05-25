@@ -1,17 +1,12 @@
-import { useState } from "react";
-import { useLocation } from "react-router";
-
 import { Page } from "./index.styled";
 import Wave from "../../components/wave";
+import { Timestamps } from "components";
 
 export const Edit = () => {
-  const { state } = useLocation();
-  const { blob, data } = state;
-
-  const [timestamps, setTimestamps] = useState(data);
   return (
     <Page>
-      <Wave {...{ blob, timestamps, setTimestamps }} />
+      <Wave />
+      <Timestamps />
     </Page>
   );
 };
