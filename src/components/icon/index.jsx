@@ -1,4 +1,4 @@
-import { Container, IconContainer } from "./icon.styled";
+import { Container, IconContainer } from "./index.styled";
 
 export const Icon = ({ icon, children, container, ...props }) => {
   return (

@@ -1,33 +1,25 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useAtom } from "jotai";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  BsXLg,
-  BsMicFill,
-  BsPlusLg,
-  BsPauseFill,
-  BsStopFill,
-  BsFillTrash3Fill,
-} from "react-icons/bs";
+import { BsXLg, BsMicFill, BsPlusLg, BsPauseFill, BsStopFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 
-import { Icon } from "components/icon/icon";
+import { blobAtom, timestampsAtom, toggleAtom } from "state";
+import { getFormatedTime } from "utils/time";
+import { Icon, Timestamps } from "components";
 import {
   ButtonGroup,
   _checkbox,
-  List,
-  ListItem,
   Page,
   MetaInfo,
   Timer,
-  Label,
   Input,
   IconContainer,
-  Checkbox,
+  ListItem,
 } from "./index.styled";
-import { getFormatedTime } from "utils/time";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 
 const Record = () => {
   const {
@@ -40,9 +32,11 @@ const Record = () => {
     recordingTime,
   } = useAudioRecorder();
 
-  const [timestamps, setTimestamps] = useState([]);
-  const [toggleInput, setToggleInput] = useState(false);
+  const [timestamps, setTimestamps] = useAtom(timestampsAtom);
+  const [toggleInput, setToggleInput] = useAtom(toggleAtom);
   const [value, setValue] = useState("");
+  const [blob, setBlob] = useAtom(blobAtom);
+
   const [save, setSave] = useState(false);
 
   const navigate = useNavigate();
@@ -66,7 +60,8 @@ const Record = () => {
 
     //* recording is over and user pressed save
     // setBlob(recordingBlob);
-    navigate("/edit", { state: { blob: recordingBlob, data: timestamps } });
+    setBlob(recordingBlob);
+    navigate("/edit");
   }, [recordingBlob]);
 
   //********************* RECORDING STATES ***********************
@@ -127,7 +122,7 @@ const Record = () => {
       <MetaInfo>
         <Timer>{getFormatedTime(recordingTime)}</Timer>
       </MetaInfo>
-      <List>
+      <Timestamps>
         <ListItem
           onClick={
             toggleInput
@@ -135,7 +130,7 @@ const Record = () => {
               : () => setToggleInput((prev) => !prev)
           }
         >
-          <IconContainer border="brand" bgc="brand" onClick={stopRecording}>
+          <IconContainer border="brand" bgc="brand">
             <BsPlusLg style={{ fill: "rgba(var(--text-color))" }} />
           </IconContainer>
           {toggleInput ? (
@@ -157,22 +152,7 @@ const Record = () => {
             <span>Add a tag</span>
           )}
         </ListItem>
-
-        {timestamps.map((e) => (
-          <ListItem key={e?.id}>
-            <Checkbox border="text" onClick={stopRecording}></Checkbox>
-            <Label style={{ flexGrow: "1" }}>{e?.tag}</Label>
-
-            <BsFillTrash3Fill
-              onClick={() => {
-                setTimestamps((prev) => prev.filter((tag) => tag?.id !== e?.id));
-              }}
-              style={{ width: "2rem", height: "2rem", fill: "rgba(var(--text-color))" }}
-            />
-          </ListItem>
-        ))}
-      </List>
-
+      </Timestamps>
       <ButtonGroup>
         {!isRecording && initState()}
         {isRecording && !isPaused && recordingState()}

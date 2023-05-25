@@ -27,6 +27,7 @@ export default defineConfig({
       handlers: path.resolve(__dirname, "./src/handlers"),
       record: path.resolve(__dirname, "./src/record"),
       styles: path.resolve(__dirname, "./src/styles"),
+      state: path.resolve(__dirname, "./src/state"),
       utils: path.resolve(__dirname, "./src/utils"),
     },
   },

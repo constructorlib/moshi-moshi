@@ -6,6 +6,10 @@ import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js";
 
 import { Container, Controls, Forward10, Pause, Play, Replay10 } from "./index.styled";
+import { useAtom } from "jotai";
+import { blobAtom, timestampsAtom } from "state";
+import { useAudioRecorder } from "react-audio-voice-recorder";
+import { redirect, useNavigate } from "react-router";
 
 const bg = "rgba(6, 7, 13, 1)";
 const dim = "rgba(22, 26, 31, 1)";
@@ -22,11 +26,15 @@ const getRegions = (timestamps) => {
     color: "rgba(0, 229, 139, 0.5)",
     id: item?.id,
     data: item?.tag,
+    // resize: false,
+    // drag: false,
   }));
 
   return RegionsPlugin.create({
     regionsMinLength: 2,
     regions: regions,
+    resize: false,
+    drag: false,
   });
 };
 
@@ -49,8 +57,11 @@ const getOptions = (ref, plugins = []) => {
   };
 };
 
-export default function Waveform({ blob, timestamps, setTimestamps }) {
-  console.log(timestamps);
+export default function Waveform() {
+  const [timestamps, setTimestamps] = useAtom(timestampsAtom);
+  const [blob, setBlob] = useAtom(blobAtom);
+
+  const navigate = useNavigate();
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const timelineRef = useRef(null);
@@ -60,6 +71,11 @@ export default function Waveform({ blob, timestamps, setTimestamps }) {
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
+    if (!blob) {
+      console.log("no blob");
+      navigate("/");
+      return;
+    }
     const regions = getRegions(timestamps);
     const timeline = TimelinePlugin.create({
       container: timelineRef.current,
@@ -93,21 +109,10 @@ export default function Waveform({ blob, timestamps, setTimestamps }) {
       wavesurfer.current.playPause();
     }
     console.log(wavesurfer.current.regions.list);
-    // setTimestamps((prev) => {
-    //   const regs = wavesurfer.current.regions.list;
-
-    //   for (const key in regs) {
-    //     const reg = regs[key];
-    //     prev[reg.id].time = [reg.start, reg.end];
-    //   }
-
-    //   return [...prev];
-    // });
     console.log(timestamps);
   };
   return (
     <Container>
-      <div>Session audio recording</div>
       <div id="waveform" ref={waveformRef} />
       <div id="timeline" ref={timelineRef}></div>
       <Controls>
