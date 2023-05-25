@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-plugin-styled-components": "^2.0.7",
+    "jotai": "^2.1.0",
     "react": "^18.2.0",
     "react-audio-voice-recorder": "^1.0.10",
     "react-bootstrap": "^2.7.2",
